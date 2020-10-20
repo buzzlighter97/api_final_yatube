@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
-from .serializers import PostSerializer, CommentSerializer, FollowSerializer, GroupSerializer
+from .serializers import (
+    PostSerializer,
+    CommentSerializer,
+    FollowSerializer,
+    GroupSerializer,
+)
 from .models import Post, Comment, Follow, Group
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -21,7 +26,9 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['group',]
+    filterset_fields = [
+        "group",
+    ]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -40,17 +47,19 @@ class CommentViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+
 class FollowList(ListCreateAPIView):
-    queryset=Follow.objects.all()
-    serializer_class=FollowSerializer
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['=following__username', '=user__username']
+    search_fields = ["=following__username", "=user__username"]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
 class GroupList(ListCreateAPIView):
-    queryset=Group.objects.all()
-    serializer_class=GroupSerializer
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

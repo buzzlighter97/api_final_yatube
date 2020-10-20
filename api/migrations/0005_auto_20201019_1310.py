@@ -7,13 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0004_auto_20201018_1546'),
+        ("api", "0004_auto_20201018_1546"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='group',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='api.group'),
+            model_name="post",
+            name="group",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="posts",
+                to="api.group",
+            ),
         ),
     ]
